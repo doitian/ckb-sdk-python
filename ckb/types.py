@@ -80,3 +80,42 @@ BlockReward = TypedDict('BlockReward', {
     'tx_fee': HexInt,
     'proposal_reward': HexInt
 })
+
+UncleTemplate = TypedDict('UncleTemplate', {
+    'hash': HexH256,
+    'required': bool,
+    'proposals': Sequence[ProposalShortId],
+    'header': Header
+})
+
+TransactionTemplate = TypedDict('TransactionTemplate', {
+    'hash': HexH256,
+    'required': bool,
+    'cycles': Optional[HexInt],
+    'depends': Optional[Sequence[HexInt]],
+    'data': Transaction
+})
+
+CellbaseTemplate = TypedDict('CellbaseTemplate', {
+    'hash': HexH256,
+    'cycles': Optional[HexInt],
+    'data': Transaction
+})
+
+BlockTemplate = TypedDict('BlockTemplate', {
+    'version': HexInt,
+    'compact_target': HexInt,
+    'current_time': HexInt,
+    'number': BlockNumber,
+    'epoch': EpochNumberWithFraction,
+    'parent_hash': HexH256,
+    'cycles_limit': HexInt,
+    'bytes_limit': HexInt,
+    'uncles_count_limit': HexInt,
+    'uncles': Sequence[UncleTemplate],
+    'transactions': Sequence[TransactionTemplate],
+    'proposals': Sequence[ProposalShortId],
+    'cellbase': CellbaseTemplate,
+    'work_id': HexInt,
+    'dao': HexByte32
+})

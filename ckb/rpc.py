@@ -1,9 +1,10 @@
 import os
 
 import jsonrpcclient
+from typing import Optional
 
-from .typing import BlockNumber, EpochNumber, HexH256
-from .types import Header, Block, Transaction, Epoch, BlockReward
+from .typing import BlockNumber, EpochNumber, HexH256, HexInt
+from .types import Header, Block, Transaction, Epoch, BlockReward, BlockTemplate
 
 DEFAULT_ENDPOINT = os.environ.get('CKB_RPC_URL', 'http://127.0.0.1:8114')
 
@@ -47,6 +48,16 @@ class RPCClient:
 
     def get_cellbase_output_capacity_details(self, hash: HexH256) -> BlockReward:
         return self.request('get_cellbase_output_capacity_details', hash)
+
+    def get_block_template(self,
+                           bytes_limit: Optional[HexInt] = None,
+                           proposals_limit: Optional[HexInt] = None,
+                           max_version: Optional[HexInt] = None
+                           ) -> BlockTemplate:
+        return self.request('get_block_template', bytes_limit, proposals_limit, max_version)
+
+    def submit_block(self, work_id: HexInt, block: Block) -> HexH256:
+        return self.request('submit_block', block)
 
 
 rpc = RPCClient()
