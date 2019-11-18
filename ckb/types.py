@@ -1,5 +1,7 @@
-from .typing import TypedDict, HexBytes, HexByte32, HexH256, HexInt, BlockNumber, EpochNumber, EpochNumberWithFraction, ProposalShortId, DepType, ScriptHashType
 from typing import Optional, Sequence
+
+from .typing import TypedDict, HexBytes, HexByte32, HexH256, HexInt, BlockNumber, EpochNumber, EpochNumberWithFraction, \
+    ProposalShortId, DepType, ScriptHashType
 
 Header = TypedDict('Header', {
     'version': HexInt,
