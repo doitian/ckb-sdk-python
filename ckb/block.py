@@ -53,14 +53,15 @@ def from_template(template: BlockTemplate) -> Block:
     header = Header(
         version=template['version'],
         compact_target=template['compact_target'],
-        timestamp=template['timestamp'],
+        timestamp=template['current_time'],
         number=template['number'],
         epoch=template['epoch'],
         transactions_root=transactions_root(transactions),
         proposals_hash=proposals_hash(proposals),
         uncles_hash=uncles_hash(uncles),
         parent_hash=template['parent_hash'],
-        dao=template['dao']
+        dao=template['dao'],
+        nonce='0x0'
     )
 
     return Block(
