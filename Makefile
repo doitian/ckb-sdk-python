@@ -8,5 +8,5 @@ test:
 publish:
 	rm -rf dist
 	${PIPENV_RUN} python setup.py sdist bdist_wheel
-	twine --version || ${PIPENV_RUN} pip install twine
+	${PIPENV_RUN} twine --version || ${PIPENV_RUN} pip install twine
 	${PIPENV_RUN} twine upload dist/*
