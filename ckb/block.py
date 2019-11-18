@@ -1,23 +1,45 @@
 from typing import Sequence
 
-from . import uncle_block, transaction
-from .types import Block, Header, Transaction, UncleBlock, BlockTemplate
-from .typing import HexH256, ProposalShortId
+from . import uncle_block, transaction, header, hex_coder
+from .cbmt import cbmt_root
+from .hash import ckb_hasher, H256_ZEROS
+from .transaction import transaction_hash, transaction_witness_hash
+from .types import HexH256, ProposalShortId, Block, Header, Transaction, UncleBlock, BlockTemplate
 
 
 def transactions_root(transactions: Sequence[Transaction]) -> HexH256:
-    # TODO
-    return '0x'
+    transaction_hash_root = cbmt_root([transaction_hash(tx) for tx in transactions])
+    witness_hash_root = cbmt_root([transaction_witness_hash(tx) for tx in transactions])
+
+    hasher = ckb_hasher()
+    hasher.update(hex_coder.hex_to_bytes(transaction_hash_root))
+    hasher.update(hex_coder.hex_to_bytes(witness_hash_root))
+
+    return '0x' + hasher.hexdigest()
 
 
 def proposals_hash(proposals: Sequence[ProposalShortId]) -> HexH256:
-    # TODO
-    return '0x'
+    if len(proposals) == 0:
+        return H256_ZEROS
+
+    hasher = ckb_hasher()
+
+    for id in proposals:
+        hasher.update(hex_coder.hex_to_bytes(id))
+
+    return '0x' + hasher.hexdigest()
 
 
 def uncles_hash(uncles: Sequence[UncleBlock]) -> HexH256:
-    # TODO
-    return '0x'
+    if len(uncles) == 0:
+        return H256_ZEROS
+
+    hasher = ckb_hasher()
+
+    for uncle in uncles:
+        hasher.update(hex_coder.hex_to_bytes(header.header_hash(uncle['header'])))
+
+    return '0x' + hasher.hexdigest()
 
 
 def from_template(template: BlockTemplate) -> Block:

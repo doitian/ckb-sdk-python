@@ -1,10 +1,10 @@
 import os
-
-import jsonrpcclient
 from typing import Optional
 
-from .typing import BlockNumber, EpochNumber, HexH256, HexInt
-from .types import Header, Block, Transaction, Epoch, BlockReward, BlockTemplate
+import jsonrpcclient
+
+from .types import BlockNumber, EpochNumber, HexH256, HexInt, Header, Block, Transaction, Epoch, BlockReward, \
+    BlockTemplate
 
 DEFAULT_ENDPOINT = os.environ.get('CKB_RPC_URL', 'http://127.0.0.1:8114')
 

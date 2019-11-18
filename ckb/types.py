@@ -1,7 +1,19 @@
-from typing import Optional, Sequence
+from typing import Optional, Sequence, NewType, Union
 
-from .typing import TypedDict, HexBytes, HexByte32, HexH256, HexInt, BlockNumber, EpochNumber, EpochNumberWithFraction, \
-    ProposalShortId, DepType, ScriptHashType
+from typing_extensions import TypedDict
+
+HexBytes = NewType('HexBytes', str)
+HexByte32 = NewType('HexByte32', HexBytes)
+HexH256 = NewType('HexH256', HexBytes)
+HexInt = NewType('HexInt', str)
+
+BlockNumber = NewType('BlockNumber', HexInt)
+EpochNumber = NewType('EpochNumber', HexInt)
+EpochNumberWithFraction = NewType('EpochNumberWithFraction', HexInt)
+ProposalShortId = NewType('ProposalShortId', HexBytes)
+
+DepType = Union['code', 'dep_group']
+ScriptHashType = Union['data', 'type']
 
 Header = TypedDict('Header', {
     'version': HexInt,
