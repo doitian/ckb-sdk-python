@@ -11,7 +11,7 @@ publish: setup requirements.txt
 	twine upload dist/*
 
 clean:
-	rm -rf dist requirements.txt
+	rm -rf dist ckb.egg-info
 
 setup:
 	pip install pip-tools wheel twine
