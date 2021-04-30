@@ -17,4 +17,4 @@ setup:
 	pip install pip-tools wheel twine
 	pip install -r requirements.txt
 
-.PHONY: test requirements.txt publish clean
+.PHONY: test publish clean setup
