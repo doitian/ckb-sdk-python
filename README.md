@@ -4,12 +4,16 @@ This is my personal side project, which is not an official SDK. The project is
 still in an early stage, the interfaces are unstable, and I may add breaking
 changes without notifications.
 
+The library works only with Python 3.
+
 ## Quick Start
 
-Install
+Install in a virtualenv
 
 ```
-pip install -U ckb
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 Example
