@@ -1,6 +1,7 @@
 import os
 from typing import Optional
 
+import requests
 import jsonrpcclient
 
 from .types import BlockNumber, EpochNumber, HexH256, HexInt, Header, Block, Transaction, Epoch, BlockReward, \
@@ -14,7 +15,14 @@ class RPCClient:
         self.endpoint = endpoint
 
     def request(self, method: str, *args):
-        return jsonrpcclient.request(self.endpoint, method, *args).data.result
+        payload = jsonrpcclient.request(method, params=tuple(args))
+        response = requests.post(self.endpoint, json=payload)
+
+        parsed = jsonrpcclient.parse(response.json())
+        if isinstance(parsed, jsonrpcclient.Ok):
+            return parsed.result
+        else:
+            raise Exception(parsed.message)
 
     def get_block(self, hash: HexH256) -> Block:
         return self.request('get_block', hash)
