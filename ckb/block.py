@@ -4,7 +4,7 @@ from . import uncle_block, transaction, header, hex_coder
 from .cbmt import cbmt_root
 from .hash import ckb_hasher, H256_ZEROS
 from .transaction import transaction_hash, transaction_witness_hash
-from .types import HexH256, ProposalShortId, Block, Header, Transaction, UncleBlock, BlockTemplate
+from .types import HexBytes, HexH256, ProposalShortId, Block, Header, Transaction, UncleBlock, BlockTemplate
 
 
 def transactions_root(transactions: Sequence[Transaction]) -> HexH256:
@@ -42,6 +42,19 @@ def uncles_hash(uncles: Sequence[UncleBlock]) -> HexH256:
     return '0x' + hasher.hexdigest()
 
 
+def extra_hash(uncles: Sequence[UncleBlock], extension: HexBytes) -> HexH256:
+    hash_without_extension = uncles_hash(uncles)
+    if extension is not None:
+        extension_hasher = ckb_hasher()
+        extension_hasher.update(hex_coder.hex_to_bytes(extension))
+        extra_hash_digest = hash_without_extension + extension_hasher.hexdigest()
+        hasher = ckb_hasher()
+        hasher.update(hex_coder.hex_to_bytes(extra_hash_digest))
+        return '0x' + hasher.hexdigest()
+
+    return hash_without_extension
+
+
 def from_template(template: BlockTemplate) -> Block:
     transactions = [transaction.from_cellbase_template(template['cellbase'])]
     transactions.extend(transaction.from_template(tx) for tx in template['transactions'])
@@ -58,7 +71,7 @@ def from_template(template: BlockTemplate) -> Block:
         epoch=template['epoch'],
         transactions_root=transactions_root(transactions),
         proposals_hash=proposals_hash(proposals),
-        uncles_hash=uncles_hash(uncles),
+        extra_hash=extra_hash(uncles, template['extension']),
         parent_hash=template['parent_hash'],
         dao=template['dao'],
         nonce='0x0'
@@ -68,5 +81,6 @@ def from_template(template: BlockTemplate) -> Block:
         header=header,
         uncles=uncles,
         transactions=transactions,
-        proposals=proposals
+        proposals=proposals,
+        extension=template['extension']
     )

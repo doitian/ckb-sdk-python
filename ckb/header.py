@@ -14,7 +14,7 @@ def extend_serialized_raw_header(buffer: bytearray, header: Header) -> bytearray
     #     parent_hash: Byte32,
     #     transactions_root: Byte32,
     #     proposals_hash: Byte32,
-    #     uncles_hash: Byte32,
+    #     extra_hash: Byte32,
     #     dao: Byte32,
     # }
     extend_uint32(buffer, header['version'])
@@ -25,7 +25,7 @@ def extend_serialized_raw_header(buffer: bytearray, header: Header) -> bytearray
     extend_bytes_array(buffer, header['parent_hash'])
     extend_bytes_array(buffer, header['transactions_root'])
     extend_bytes_array(buffer, header['proposals_hash'])
-    extend_bytes_array(buffer, header['uncles_hash'])
+    extend_bytes_array(buffer, header['extra_hash'])
     extend_bytes_array(buffer, header['dao'])
 
     return buffer
