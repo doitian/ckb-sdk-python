@@ -24,7 +24,7 @@ Header = TypedDict('Header', {
     'parent_hash': HexH256,
     'transactions_root': HexH256,
     'proposals_hash': HexH256,
-    'uncles_hash': HexH256,
+    'extra_hash': HexH256,
     'dao': HexByte32,
     'nonce': HexInt,
     'hash': Optional[HexH256]
@@ -77,7 +77,8 @@ Block = TypedDict('Block', {
     'header': Header,
     'uncles': Sequence[UncleBlock],
     'transactions': Sequence[Transaction],
-    'proposals': Sequence[ProposalShortId]
+    'proposals': Sequence[ProposalShortId],
+    'extension': HexBytes
 })
 
 Epoch = TypedDict('Epoch', {
@@ -131,5 +132,6 @@ BlockTemplate = TypedDict('BlockTemplate', {
     'proposals': Sequence[ProposalShortId],
     'cellbase': CellbaseTemplate,
     'work_id': HexInt,
-    'dao': HexByte32
+    'dao': HexByte32,
+    'extension': HexBytes
 })

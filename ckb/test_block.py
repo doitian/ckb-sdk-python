@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from ckb.block import transactions_root, proposals_hash, uncles_hash, from_template
+from ckb.block import transactions_root, proposals_hash, extra_hash, from_template
 from ckb.header import header_hash
 
 TEST_BLOCK = {'header': {'compact_target': '0x1a08a97e',
@@ -12,7 +12,7 @@ TEST_BLOCK = {'header': {'compact_target': '0x1a08a97e',
                          'proposals_hash': '0xad225773c594929c7fd60b82b0cb300a42fe7c6235f40ca70ce6c35f69d4c061',
                          'timestamp': '0x16e77208628',
                          'transactions_root': '0xb7152b63347f20ac999a51a5a80e0a80c8a703dad686c2a65f084c9acd9f596c',
-                         'uncles_hash': '0x2d54b7e61b1a37d813ff4c1a13061973f6f5aed878b84765570228f7b17f7fe2',
+                         'extra_hash': '0x2d54b7e61b1a37d813ff4c1a13061973f6f5aed878b84765570228f7b17f7fe2',
                          'version': '0x0'},
               'proposals': ['0x1b61eeaeaed2ed6da110', '0x8b5f2f5033e4f78eb8d8', '0x63c4007a78cdbcfea1e6',
                             '0x18b874925241a7f55fb0'], 'transactions': [
@@ -64,10 +64,12 @@ TEST_BLOCK = {'header': {'compact_target': '0x1a08a97e',
                                      'proposals_hash': '0x2ee20468abe9e7766b5d4a88f2b8d3ebb65024bef3e463192776b9b35ac95315',
                                      'timestamp': '0x16e77154097',
                                      'transactions_root': '0x23d5696b2219ebca71b9371b29b646c1ea8fcdc3160c86c8602958a51f4ba53c',
-                                     'uncles_hash': '0x0000000000000000000000000000000000000000000000000000000000000000',
+                                     'extra_hash': '0x0000000000000000000000000000000000000000000000000000000000000000',
                                      'version': '0x0'},
                           'proposals': ['0x47a1a0dc8308902a4b4f', '0x88caab22953f4d3ff218', '0x52ca72462ba65e5af75e',
-                                        '0x96a191bfeaf77fa351f9']}]}
+                                        '0x96a191bfeaf77fa351f9']}],
+              'extension': None
+              }
 
 TEST_TEMPLATE = {'bytes_limit': '0x91c08', 'cellbase': {'cycles': None, 'data': {'cell_deps': [], 'header_deps': [],
                                                                                  'inputs': [{'previous_output': {
@@ -89,7 +91,7 @@ TEST_TEMPLATE = {'bytes_limit': '0x91c08', 'cellbase': {'cycles': None, 'data': 
                  'dao': '0x2c2534963eb1a22efc2951da3c872300b87b10690d53000000ced287f44aff06',
                  'epoch': '0x7080546000001', 'number': '0xc15',
                  'parent_hash': '0x2ba74d90912f9e891f91ce0d75680fdb305346e15722cc20b7026bed2acf647c', 'proposals': [],
-                 'transactions': [], 'uncles': [], 'uncles_count_limit': '0x2', 'version': '0x0', 'work_id': '0x0'}
+                 'transactions': [], 'uncles': [], 'uncles_count_limit': '0x2', 'version': '0x0', 'work_id': '0x0', 'extension': None}
 
 
 class BlockTest(TestCase):
@@ -99,8 +101,11 @@ class BlockTest(TestCase):
     def test_proposals_hash(self):
         self.assertEqual(proposals_hash(TEST_BLOCK['proposals']), TEST_BLOCK['header']['proposals_hash'])
 
-    def test_uncles_hash(self):
-        self.assertEqual(uncles_hash(TEST_BLOCK['uncles']), TEST_BLOCK['header']['uncles_hash'])
+    def test_extra_hash_example(self):
+        self.assertEqual(extra_hash([], '0x626c6f636b202333'), '0xfbbfbaaa0afac7730f4a6102b376986f1f288f3eccb18e0d16d58422aab28aad')
+
+    def test_extra_hash(self):
+        self.assertEqual(extra_hash(TEST_BLOCK['uncles'], TEST_BLOCK['extension']), TEST_BLOCK['header']['extra_hash'])
     
     def test_from_template(self):
         block = from_template(TEST_TEMPLATE)

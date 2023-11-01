@@ -10,7 +10,7 @@ TEST_HEADER = {'compact_target': '0x1a08a97e',
                'proposals_hash': '0x0000000000000000000000000000000000000000000000000000000000000000',
                'timestamp': '0x16e783b79fd',
                'transactions_root': '0x445dc8adada6feaf5275f9e31a1e9044588de0eaf73e8afdc21cbf07f79bf87f',
-               'uncles_hash': '0x0000000000000000000000000000000000000000000000000000000000000000', 'version': '0x0'}
+               'extra_hash': '0x0000000000000000000000000000000000000000000000000000000000000000', 'version': '0x0'}
 
 
 class HeaderTest(TestCase):
