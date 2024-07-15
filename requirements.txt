@@ -12,7 +12,7 @@ idna==3.4
     # via requests
 jsonrpcclient==4.0.3
     # via ckb (setup.py)
-requests==2.31.0
+requests==2.32.0
     # via ckb (setup.py)
 typing-extensions==4.8.0
     # via ckb (setup.py)
