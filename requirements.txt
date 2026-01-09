@@ -8,7 +8,7 @@ certifi==2024.7.4
     # via requests
 charset-normalizer==3.3.2
     # via requests
-idna==3.4
+idna==3.7
     # via requests
 jsonrpcclient==4.0.3
     # via ckb (setup.py)
